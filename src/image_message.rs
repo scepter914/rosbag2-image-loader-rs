@@ -13,7 +13,7 @@ impl ImageMessage {
         }
     }
 
-    pub fn get_image(&self) -> RgbImage {
-        self.image
+    pub fn get_image(&self) -> &RgbImage {
+        &self.image
     }
 }
