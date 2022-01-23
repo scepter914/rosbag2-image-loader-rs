@@ -1,4 +1,5 @@
 use crate::rosbag2_image::Rosbag2Images;
+use image::RgbImage;
 use rusqlite::Connection;
 
 #[derive(Debug)]
@@ -13,6 +14,12 @@ pub fn load_images_from_rosbag2(file_name: String) -> rusqlite::Result<Vec<Rosba
     // DB connection
     let db_connection = Connection::open(file_name).unwrap();
 
+    // Make vector of rosbag2_images interface from topic definition
+    // let mut rosbag2_images_vector: Vec<Rosbag2Images> = Vec::new();
+    let mut rosbag2_images_vector: Vec<Rosbag2Images> =
+        vec![Rosbag2Images::new(3, "hoge".to_string(), 640, 480)];
+    // Convert to Rosbag2Images struct
+
     // Load messages
     let mut messages =
         db_connection.prepare("SELECT id, topic_id, timestamp, data FROM messages")?;
@@ -25,26 +32,40 @@ pub fn load_images_from_rosbag2(file_name: String) -> rusqlite::Result<Vec<Rosba
         })
     })?;
 
-    // Convert to Rosbag2Images struct
-    let mut images: Vec<Rosbag2Images> = Vec::new();
+    // Convert messages to rosbag2_images interface
     for message in messages_iter {
-        let topic_id = message.as_ref().unwrap().topic_id;
-        let timestamp = message.as_ref().unwrap().timestamp;
-        if topic_id == 3 {
-            let image_topic_data: Vec<u8> =
-                message.as_ref().unwrap().data.as_ref().unwrap().to_vec();
-            let image_data: Vec<u8> = image_topic_data[52..].to_vec();
-            // let topic_image = convert_topic_data_to_image(640, 480, timestamp, image_data);
-
-            // images.push(topic_image);
-
-            // println!("Image {}", message.unwrap().timestamp,);
-            //let image = RgbImage::from_vec(640, 480, image_data[..921600].to_vec()).unwrap();
-            // let save_file = format!("data/result/{}.png", message.as_ref().unwrap().timestamp);
-            // image.save(save_file).unwrap();
+        let message_topic_id = message.as_ref().unwrap().topic_id;
+        let message_timestamp = message.as_ref().unwrap().timestamp;
+        for rosbag2_images in &mut rosbag2_images_vector {
+            //if topic_id == 3 {
+            if message_topic_id == rosbag2_images.get_topic_id() {
+                let topic_image_data: Vec<u8> = convert_message_to_image_vec(&message);
+                rosbag2_images.add_images(message_timestamp, topic_image_data);
+            }
         }
+
+        // println!("Image {}", message.unwrap().timestamp,);
+        //let image = RgbImage::from_vec(640, 480, image_data[..921600].to_vec()).unwrap();
+        // let save_file = format!("data/result/{}.png", message.as_ref().unwrap().timestamp);
+        // image.save(save_file).unwrap();
     }
-    Ok(images)
+    Ok(rosbag2_images_vector)
 }
 
-fn get_image_data() {}
+/// Convert from ROS2 topic message to image vector.
+/// ROS2 image message has
+/// - std_msgs/Header header
+/// - uint32 height
+/// - uint32 width
+/// - string encoding
+/// - uint8 is_bigendian
+/// - uint32 step
+/// - uint8[] data
+///
+/// message.data[0..51] have std_msgs/Header header ~ uint32 step
+fn convert_message_to_image_vec(
+    message: &std::result::Result<TopicData, rusqlite::Error>,
+) -> Vec<u8> {
+    let image_topic_data: Vec<u8> = message.as_ref().unwrap().data.as_ref().unwrap().to_vec();
+    image_topic_data[52..].to_vec()
+}
