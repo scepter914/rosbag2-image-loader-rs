@@ -1,4 +1,4 @@
-use crate::rosbag2::Rosbag2Images;
+use crate::rosbag2_image::Rosbag2Images;
 use rusqlite::Connection;
 
 #[derive(Debug)]
@@ -24,6 +24,8 @@ pub fn load_images_from_rosbag2(file_name: String) -> rusqlite::Result<Vec<Rosba
             data: row.get(3)?,
         })
     })?;
+
+    // Convert to Rosbag2Images struct
     let mut images: Vec<Rosbag2Images> = Vec::new();
     for message in messages_iter {
         let topic_id = message.as_ref().unwrap().topic_id;
@@ -32,9 +34,9 @@ pub fn load_images_from_rosbag2(file_name: String) -> rusqlite::Result<Vec<Rosba
             let image_topic_data: Vec<u8> =
                 message.as_ref().unwrap().data.as_ref().unwrap().to_vec();
             let image_data: Vec<u8> = image_topic_data[52..].to_vec();
-            let topic_image = convert_topic_data_to_image(640, 480, timestamp, image_data);
+            // let topic_image = convert_topic_data_to_image(640, 480, timestamp, image_data);
 
-            images.push(topic_image);
+            // images.push(topic_image);
 
             // println!("Image {}", message.unwrap().timestamp,);
             //let image = RgbImage::from_vec(640, 480, image_data[..921600].to_vec()).unwrap();
@@ -44,3 +46,5 @@ pub fn load_images_from_rosbag2(file_name: String) -> rusqlite::Result<Vec<Rosba
     }
     Ok(images)
 }
+
+fn get_image_data() {}
