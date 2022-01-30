@@ -1,5 +1,6 @@
 use image::{GrayImage, Luma, RgbImage};
 use rosbag2_image_loader::loader::load_images_from_rosbag2;
+use rosbag2_image_loader::rosbag2_image_interface::Rosbag2Images;
 
 fn my_image_proc(rgb_image: &RgbImage, frame_index: usize) {
     let width = rgb_image.width();
@@ -26,7 +27,7 @@ fn my_image_proc(rgb_image: &RgbImage, frame_index: usize) {
 fn main() {
     let file_name: String =
         "data/rosbag/rosbag2_2022_01_09-13_49_29/rosbag2_2022_01_09-13_49_29_0.db3".to_string();
-    let mut interfaces = load_images_from_rosbag2(file_name).unwrap();
+    let mut interfaces: Vec<Rosbag2Images> = load_images_from_rosbag2(file_name).unwrap();
     let mut frame_index = 0;
     loop {
         frame_index += 1;

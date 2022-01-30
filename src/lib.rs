@@ -1,4 +1,5 @@
 mod image_message;
 pub mod loader;
-mod rosbag2_image;
+pub mod rosbag2_image_interface;
 mod rosbag2_message;
+mod rosbag2_topic;
