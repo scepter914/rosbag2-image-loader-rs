@@ -1,22 +1,22 @@
 use crate::rosbag2_image::Rosbag2Images;
-use crate::rosbag2_topic::TopicData;
+use crate::rosbag2_message::TopicMessage;
 use rusqlite::Connection;
 
 pub fn load_images_from_rosbag2(file_name: String) -> rusqlite::Result<Vec<Rosbag2Images>> {
     // DB connection
     let db_connection = Connection::open(file_name).unwrap();
 
+    // Load
     // Make vector of rosbag2_images interface from topic definition
-    // let mut rosbag2_images_vector: Vec<Rosbag2Images> = Vec::new();
-    let mut rosbag2_images_vector: Vec<Rosbag2Images> =
-        vec![Rosbag2Images::new(3, "hoge".to_string(), 640, 480)];
+    let mut rosbag2_images_vector: Vec<Rosbag2Images> = Vec::new();
+    rosbag2_images_vector.push(Rosbag2Images::new(3, "hoge".to_string(), 640, 480));
     // Convert to Rosbag2Images struct
 
-    // Load messages
+    // Load topic messages
     let mut messages =
         db_connection.prepare("SELECT id, topic_id, timestamp, data FROM messages")?;
     let messages_iter = messages.query_map([], |row| {
-        Ok(TopicData {
+        Ok(TopicMessage {
             message_id: row.get(0)?,
             topic_id: row.get(1)?,
             timestamp: row.get(2)?,
