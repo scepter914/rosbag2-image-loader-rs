@@ -17,7 +17,7 @@ fn my_image_proc(rgb_image: &RgbImage, frame_index: usize) {
         }
     }
 
-    println!("save gray scale image");
+    println!("save gray scale image {}", frame_index);
     gray_image
         .save(format!("./data/result/sample_{}.png", frame_index))
         .unwrap();
