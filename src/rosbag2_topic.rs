@@ -7,4 +7,7 @@ pub struct Topic {
     pub offered_qos_profiles: String,
 }
 
-impl Topic {}
+pub struct ImageTopicWithCameraInfo {
+    pub image_topic_id: u16,
+    pub camera_info_topic_id: u16,
+}

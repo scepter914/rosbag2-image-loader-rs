@@ -1,6 +1,5 @@
 use std::convert::TryInto;
 
-#[derive(Debug)]
 pub struct TopicMessage {
     pub message_id: u64,
     pub topic_id: u16,
