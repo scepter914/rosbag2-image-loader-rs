@@ -18,15 +18,18 @@ fn my_image_proc(rgb_image: &RgbImage, frame_index: usize) {
         }
     }
 
-    println!("save gray scale image {}", frame_index);
-    gray_image
-        .save(format!("./data/result/sample_{}.png", frame_index))
-        .unwrap();
+    // println!("save gray scale image {}", frame_index);
+    // gray_image
+    //     .save(format!("./data/result/sample_{}.png", frame_index))
+    //     .unwrap();
 }
 
 fn main() {
+    // let file_name: String =
+    //     "data/rosbag/rosbag2_2022_01_09-13_49_29/rosbag2_2022_01_09-13_49_29_0.db3".to_string();
     let file_name: String =
-        "data/rosbag/rosbag2_2022_01_09-13_49_29/rosbag2_2022_01_09-13_49_29_0.db3".to_string();
+        "data/rosbag/rosbag2_2022_02_05-00_54_33/rosbag2_2022_02_05-00_54_33_0.db3".to_string();
+
     let mut interfaces: Vec<Rosbag2Images> = load_images_from_rosbag2(file_name).unwrap();
     let mut frame_index = 0;
     loop {
