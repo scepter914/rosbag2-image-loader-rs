@@ -44,4 +44,13 @@ impl Rosbag2Images {
         self.images
             .push(ImageMessage::new(self.width, self.height, timestamp_, data))
     }
+
+    pub fn get_frame_from_ratio(&mut self, ratio: f32) -> Option<&image::RgbImage> {
+        let image_size: f32 = self.images.len() as f32;
+        let ratio_: f32 = f32::min(f32::max(0.0, ratio), 1.0);
+        let frame_index: usize = (image_size * ratio_) as usize;
+        self.now_frame_index = frame_index - 1;
+        let output: Option<&image::RgbImage> = Some(self.images[self.now_frame_index].get_image());
+        output
+    }
 }
