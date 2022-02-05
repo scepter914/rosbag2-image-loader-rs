@@ -1,4 +1,4 @@
-use crate::image_message::StampedImage;
+use crate::interface::stamped_image::StampedImage;
 
 pub struct Rosbag2Images {
     topic_id: u16,

@@ -1,2 +1,3 @@
-mod rosbag2_message;
-mod rosbag2_topic;
+pub mod image_topic;
+pub mod message;
+pub mod topic;
