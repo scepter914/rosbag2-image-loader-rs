@@ -1,5 +1,6 @@
 use crate::rosbag2::topic::Topic;
 
+#[derive(Debug)]
 pub struct ImageTopicInfo {
     pub image_topic_name: String,
     pub image_topic_id: u16,
@@ -7,9 +8,13 @@ pub struct ImageTopicInfo {
 }
 
 impl ImageTopicInfo {
-    fn new(image_topic_name_: &str, image_topic_id_: u16, camera_info_topic_id_: u16) -> Self {
+    fn new(
+        image_topic_name_: impl Into<String>,
+        image_topic_id_: u16,
+        camera_info_topic_id_: u16,
+    ) -> Self {
         ImageTopicInfo {
-            image_topic_name: image_topic_name_.to_string(),
+            image_topic_name: image_topic_name_.into(),
             image_topic_id: image_topic_id_,
             camera_info_topic_id: camera_info_topic_id_,
         }
@@ -50,7 +55,6 @@ impl ImageTopicManager {
                 }
             }
         }
-        println!("{:?}", self.image_topics);
         image_topic_infos
     }
 }

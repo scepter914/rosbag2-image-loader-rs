@@ -10,10 +10,10 @@ pub struct Rosbag2Images {
 }
 
 impl Rosbag2Images {
-    pub fn new(topic_id_: u16, topic_name_: String, width_: u32, height_: u32) -> Self {
+    pub fn new(topic_id_: u16, topic_name_: impl Into<String>, width_: u32, height_: u32) -> Self {
         Rosbag2Images {
             topic_id: topic_id_,
-            topic_name: topic_name_,
+            topic_name: topic_name_.into(),
             width: width_,
             height: height_,
             now_frame_index: 0,
