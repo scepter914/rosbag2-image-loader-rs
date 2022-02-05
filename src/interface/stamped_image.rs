@@ -13,6 +13,10 @@ impl StampedImage {
         }
     }
 
+    pub fn get_timestamp(&self) -> u64 {
+        self.timestamp
+    }
+
     pub fn get_image(&self) -> &RgbImage {
         &self.image
     }
