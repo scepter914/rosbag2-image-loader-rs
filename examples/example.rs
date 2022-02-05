@@ -1,6 +1,6 @@
 use image::{GrayImage, Luma, RgbImage};
+use rosbag2_image_loader::interface::rosbag2_image_interface::Rosbag2Images;
 use rosbag2_image_loader::loader::load_images_from_rosbag2;
-use rosbag2_image_loader::rosbag2_image_interface::Rosbag2Images;
 
 fn my_image_proc(rgb_image: &RgbImage, frame_index: usize) {
     let width = rgb_image.width();
@@ -18,7 +18,7 @@ fn my_image_proc(rgb_image: &RgbImage, frame_index: usize) {
         }
     }
 
-    // println!("save gray scale image {}", frame_index);
+    println!("save gray scale image {}", frame_index);
     // gray_image
     //     .save(format!("./data/result/sample_{}.png", frame_index))
     //     .unwrap();
