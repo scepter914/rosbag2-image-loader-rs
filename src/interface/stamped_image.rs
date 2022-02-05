@@ -1,13 +1,13 @@
 use image::RgbImage;
 
-pub struct ImageMessage {
+pub struct StampedImage {
     timestamp: u64,
     image: RgbImage,
 }
 
-impl ImageMessage {
+impl StampedImage {
     pub fn new(width: u32, height: u32, timestamp_: u64, data: Vec<u8>) -> Self {
-        ImageMessage {
+        StampedImage {
             timestamp: timestamp_,
             image: RgbImage::from_vec(width, height, data).unwrap(),
         }

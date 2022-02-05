@@ -1,4 +1,4 @@
-use crate::image_message::ImageMessage;
+use crate::image_message::StampedImage;
 
 pub struct Rosbag2Images {
     topic_id: u16,
@@ -6,7 +6,7 @@ pub struct Rosbag2Images {
     width: u32,
     height: u32,
     now_frame_index: usize,
-    images: Vec<ImageMessage>,
+    images: Vec<StampedImage>,
 }
 
 impl Rosbag2Images {
@@ -42,7 +42,7 @@ impl Rosbag2Images {
 
     pub fn add_images(&mut self, timestamp_: u64, data: Vec<u8>) {
         self.images
-            .push(ImageMessage::new(self.width, self.height, timestamp_, data))
+            .push(StampedImage::new(self.width, self.height, timestamp_, data))
     }
 
     pub fn get_frame_from_ratio(&mut self, ratio: f32) -> Option<&image::RgbImage> {
