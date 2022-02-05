@@ -39,12 +39,11 @@ impl TopicMessage {
     /// |  | sensor_msgs/RegionOfInterest roi |
     pub fn convert_message_to_camera_info(&self) -> (u32, u32) {
         let topic_data: Vec<u8> = self.data.as_ref().unwrap().to_vec();
-        let height_u8: [u8; 4] = slice_to_array(&topic_data[20..23]);
-        let width_u8: [u8; 4] = slice_to_array(&topic_data[24..27]);
+        let height_u8: [u8; 4] = slice_to_array(&topic_data[20..24]);
+        let width_u8: [u8; 4] = slice_to_array(&topic_data[24..28]);
         let height: u32 = unsafe { std::mem::transmute(height_u8) };
         let width: u32 = unsafe { std::mem::transmute(width_u8) };
-        println!("{}, {}", height, width);
-        (height, width)
+        (width, height)
     }
 }
 
