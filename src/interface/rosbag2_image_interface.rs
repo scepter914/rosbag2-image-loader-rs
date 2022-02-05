@@ -23,7 +23,7 @@ impl Rosbag2Images {
 
     pub fn get_frame(&mut self) -> Option<&image::RgbImage> {
         let output: Option<&image::RgbImage>;
-        if self.now_frame_index > self.images.len() {
+        if self.now_frame_index > self.images.len() - 1 {
             output = None;
         } else {
             output = Some(self.images[self.now_frame_index].get_image());
