@@ -10,21 +10,21 @@ pub struct TopicMessage {
 impl TopicMessage {
     /// Convert from ROS2 topic message to image vector.
     /// ROS2 image message has
-    /// - std_msgs/Header header
-    /// - uint32 height
-    /// - uint32 width
-    /// - string encoding
-    /// - uint8 is_bigendian
-    /// - uint32 step
-    /// - uint8[] data
-    ///
-    /// message.data[0..51] have std_msgs/Header header ~ uint32 step
+    /// | the index of topic data | topic data |
+    /// | -- | --  |
+    /// | 0-19 |  std_msgs/Header header |
+    /// | 20-23 | uint32 height |
+    /// | 24-27 | uint32 width |
+    /// |  |  string encoding |
+    /// |  |  uint8 is_bigendian |
+    /// |  |  uint32 step |
+    /// | 52- |  uint8[] data |
     pub fn convert_message_to_image_vec(&self) -> Vec<u8> {
         let image_topic_data: Vec<u8> = self.data.as_ref().unwrap().to_vec();
         image_topic_data[52..].to_vec()
     }
 
-    /// | the index of topic data |  std_msgs/Header header |
+    /// | the index of topic data | topic data |
     /// | -- | --  |
     /// | 0-19 |  std_msgs/Header header |
     /// | 20-23 | uint32 height |
