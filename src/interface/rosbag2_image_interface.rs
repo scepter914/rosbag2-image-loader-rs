@@ -1,9 +1,12 @@
 use crate::interface::stamped_image::StampedImage;
 use crate::rosbag2::message::TopicMessage;
+use crate::rosbag2::topic::Topic;
+use image::RgbImage;
 
 pub struct Rosbag2Images {
     topic_id: u16,
     topic_name: String,
+    topic_type: String,
     width: u32,
     height: u32,
     now_frame_index: usize,
@@ -11,15 +14,26 @@ pub struct Rosbag2Images {
 }
 
 impl Rosbag2Images {
-    pub fn new(topic_id_: u16, topic_name_: impl Into<String>, width_: u32, height_: u32) -> Self {
+    pub fn new(
+        topic_id_: u16,
+        topic_name_: impl Into<String>,
+        topic_type_: impl Into<String>,
+        width_: u32,
+        height_: u32,
+    ) -> Self {
         Rosbag2Images {
             topic_id: topic_id_,
             topic_name: topic_name_.into(),
+            topic_type: topic_type_.into(),
             width: width_,
             height: height_,
             now_frame_index: 0,
             images: Vec::new(),
         }
+    }
+
+    pub fn from_topic(topic: &Topic, width_: u32, height_: u32) -> Self {
+        Rosbag2Images::new(topic.id, &topic.name, &topic.topic_type, width_, height_)
     }
 
     pub fn get_frame(&mut self) -> Option<&image::RgbImage> {
@@ -46,13 +60,9 @@ impl Rosbag2Images {
     }
 
     pub fn add_images(&mut self, message: &TopicMessage) {
-        let topic_image_data: Vec<u8> = message.convert_message_to_image_vec();
-        self.images.push(StampedImage::new(
-            self.width,
-            self.height,
-            message.timestamp,
-            topic_image_data,
-        ))
+        let image: RgbImage = message.deserialize(&self.topic_type).unwrap();
+        self.images
+            .push(StampedImage::new(message.timestamp, image))
     }
 
     pub fn get_frame_from_ratio(&mut self, ratio: f32) -> Option<&image::RgbImage> {
