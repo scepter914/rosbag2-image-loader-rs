@@ -53,6 +53,7 @@ impl TopicMessage {
     /// |                                      | uint32 binning_x                 |
     /// |                                      | uint32 binning_y                 |
     /// |                                      | sensor_msgs/RegionOfInterest roi |
+    #[allow(dead_code)]
     pub fn convert_message_to_camera_info(&self) -> (u32, u32) {
         let topic_data: Vec<u8> = self.data.as_ref().unwrap().to_vec();
         let header = get_header(&topic_data);
