@@ -1,6 +1,6 @@
 [package]
 name = "rosbag2_image_loader"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2018"
 description = "Data loader for rosbag2"
 keywords = ["Robotics", "ROS", "ROS2"]

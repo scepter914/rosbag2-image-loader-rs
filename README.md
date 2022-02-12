@@ -41,3 +41,10 @@ cargo run --release --example example data/rosbag/rosbag2_2022_02_05-00_54_33/ro
 ```
 
 - Rosbag2Images can be used as [simple_image_interface](https://github.com/scepter914/simple-image-interface-rs).
+
+## History
+
+- v0.1.1
+  - Update docs
+- v0.1.0
+  - Open crate
