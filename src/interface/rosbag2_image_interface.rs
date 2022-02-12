@@ -3,8 +3,9 @@ use crate::rosbag2::message::TopicMessage;
 use crate::rosbag2::topic::Topic;
 use image::RgbImage;
 
-/// Rosbag2 images interface
-/// This interface is same as [simple_image_interface](https://github.com/scepter914/simple-image-interface-rs)
+/// Rosbag2 images interface.
+///
+/// This interface is same as [simple_image_interface](https://github.com/scepter914/simple-image-interface-rs).
 pub struct Rosbag2Images {
     topic_id: u16,
     topic_name: String,
@@ -39,7 +40,8 @@ impl Rosbag2Images {
         Rosbag2Images::new(topic.id, &topic.name, &topic.topic_type, width_, height_)
     }
 
-    /// Get frame from interface
+    /// Get frame from interface.
+    ///
     /// If interface do not get a image, return None
     pub fn get_frame(&mut self) -> Option<&image::RgbImage> {
         let output: Option<&image::RgbImage>;
@@ -52,7 +54,8 @@ impl Rosbag2Images {
         output
     }
 
-    /// Get frame from 0-1 ratio
+    /// Get frame from 0-1 ratio.
+    ///
     /// If the number of frames is 100 and ratio is 0.4, return frame[40]
     pub fn get_frame_from_ratio(&mut self, ratio: f32) -> Option<&image::RgbImage> {
         let image_size: f32 = self.images.len() as f32;
@@ -83,7 +86,7 @@ impl Rosbag2Images {
         self.now_frame_index = 0;
     }
 
-    /// Add image from topic message
+    /// Add image from topic message.
     pub(crate) fn add_images(&mut self, message: &TopicMessage) {
         let image: RgbImage = message.deserialize(&self.topic_type).unwrap();
         self.images

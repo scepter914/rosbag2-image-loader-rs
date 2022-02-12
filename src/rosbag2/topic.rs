@@ -1,4 +1,7 @@
-/// Topic struct
+//! # simple-image-interface-rs
+//! see [README]()
+
+/// Topic struct.
 #[derive(Debug)]
 pub struct Topic {
     pub id: u16,

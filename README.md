@@ -1,4 +1,4 @@
-# rosbag2-loader-rs
+# rosbag2-image-loader-rs
 
 - This repository is rosbag2 image loader by rust
 - document
@@ -44,6 +44,8 @@ cargo run --release --example example data/rosbag/rosbag2_2022_02_05-00_54_33/ro
 
 ## History
 
+- v0.1.2
+  - Update docs
 - v0.1.1
   - Update docs
 - v0.1.0

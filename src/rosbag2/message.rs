@@ -9,7 +9,7 @@ pub struct TopicMessage {
 }
 
 impl TopicMessage {
-    /// Deserialize image message
+    /// Deserialize image message.
     pub fn deserialize(&self, topic_type: impl Into<String>) -> Option<RgbImage> {
         match topic_type.into().as_str() {
             "sensor_msgs/msg/Image" => Some(self.deserialize_image_message()),
@@ -18,7 +18,8 @@ impl TopicMessage {
     }
 
     /// Deserialize sensor_msgs/msg/Image to image vector.
-    /// ROS2 image message has data as below
+    ///
+    /// ROS2 image message has data as below.
     ///
     /// | the index of topic data              | topic data             |
     /// | ------------------------------------ | ---------------------- |
@@ -37,8 +38,9 @@ impl TopicMessage {
         RgbImage::from_vec(width, height, topic_data[(header.size + 28)..].to_vec()).unwrap()
     }
 
-    /// Convert CameraInfo to (width, height)
-    /// CameraInfo has data as below
+    /// Convert CameraInfo to (width, height).
+    ///
+    /// CameraInfo has data as below.
     ///
     /// | the index of topic data              | topic data                       |
     /// | ------------------------------------ | -------------------------------- |

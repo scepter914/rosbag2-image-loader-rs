@@ -3,7 +3,7 @@ use crate::rosbag2::message::TopicMessage;
 use crate::rosbag2::topic::Topic;
 use rusqlite::Connection;
 
-/// Load rosbag2 and construct the vector of Rosbag2Images interface struct
+/// Load rosbag2 and construct the vector of Rosbag2Images interface struct.
 pub fn load_images_from_rosbag2(file_name: String) -> rusqlite::Result<Vec<Rosbag2Images>> {
     // DB connection
     let db_connection = Connection::open(file_name).unwrap();

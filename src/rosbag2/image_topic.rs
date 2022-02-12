@@ -1,7 +1,8 @@
 use crate::rosbag2::topic::Topic;
 
-/// Image topic information
-/// Id correspondence table for CameraInfo and CompressedImage
+/// Image topic information.
+///
+/// Id correspondence table for CameraInfo and CompressedImage.
 #[allow(dead_code)]
 pub struct ImageTopicInfo {
     pub image_topic_name: String,
@@ -24,8 +25,9 @@ impl ImageTopicInfo {
     }
 }
 
-/// Image topic handler
-/// Topic correspondence table for CameraInfo and CompressedImage
+/// Image topic handler.
+///
+/// Topic correspondence table for CameraInfo and CompressedImage.
 #[allow(dead_code)]
 pub struct ImageTopicManager {
     image_topics: Vec<Topic>,

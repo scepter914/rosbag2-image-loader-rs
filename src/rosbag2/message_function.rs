@@ -1,7 +1,7 @@
 use crate::rosbag2::header::TopicHeaderInfo;
 use std::convert::TryInto;
 
-/// Get header information
+/// Get header information.
 pub fn get_header(topic_data: &[u8]) -> TopicHeaderInfo {
     let (frame_id_, header_data_size_) = get_string(topic_data, 12);
     TopicHeaderInfo {
@@ -10,8 +10,10 @@ pub fn get_header(topic_data: &[u8]) -> TopicHeaderInfo {
     }
 }
 
-/// Get string information
-/// Return
+/// Get string information.
+///
+/// Return.
+///
 /// - String: string data
 /// - usize: end_index
 pub fn get_string(topic_data: &[u8], start_index: usize) -> (String, usize) {

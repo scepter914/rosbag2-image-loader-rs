@@ -1,6 +1,6 @@
 use image::RgbImage;
 
-/// Image with timestamp
+/// Image with timestamp.
 pub struct StampedImage {
     timestamp: u64,
     image: RgbImage,
