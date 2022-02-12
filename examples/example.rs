@@ -30,19 +30,19 @@ fn my_image_proc(rgb_image: &RgbImage, frame_index: usize) {
 }
 
 fn main() {
-    let file_name: String =
-        "data/rosbag/rosbag2_2022_01_09-13_49_29/rosbag2_2022_01_09-13_49_29_0.db3".to_string();
-    // let file_name: String =
-    //     "data/rosbag/rosbag2_2022_02_05-00_54_33/rosbag2_2022_02_05-00_54_33_0.db3".to_string();
+    let args: Vec<String> = std::env::args().collect();
 
+    let file_name: String = args[1].to_string();
     let mut interfaces: Vec<Rosbag2Images> = load_images_from_rosbag2(file_name).unwrap();
     let mut frame_index = 0;
-    loop {
-        frame_index += 1;
-        let input_image = interfaces[0].get_frame();
-        if input_image.is_none() {
-            break;
+    if !interfaces.is_empty() {
+        loop {
+            frame_index += 1;
+            let input_image = interfaces[0].get_frame();
+            if input_image.is_none() {
+                break;
+            }
+            my_image_proc(&input_image.unwrap(), frame_index);
         }
-        my_image_proc(&input_image.unwrap(), frame_index);
     }
 }
