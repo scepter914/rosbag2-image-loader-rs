@@ -16,7 +16,7 @@
 ### Run example
 
 ```sh
-cargo run --release --example example <path_to_rosbag2>
+cargo run --release --example example {path_to_rosbag2}
 # example
 cargo run --release --example example data/rosbag/rosbag2_2022_02_05-00_54_33/rosbag2_2022_02_05-00_54_33_0.db3
 ```
