@@ -1,3 +1,4 @@
+/// Topic struct
 #[derive(Debug)]
 pub struct Topic {
     pub id: u16,

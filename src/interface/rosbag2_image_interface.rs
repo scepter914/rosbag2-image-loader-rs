@@ -3,6 +3,8 @@ use crate::rosbag2::message::TopicMessage;
 use crate::rosbag2::topic::Topic;
 use image::RgbImage;
 
+/// Rosbag2 images interface
+/// This interface is same as [simple_image_interface](https://github.com/scepter914/simple-image-interface-rs)
 pub struct Rosbag2Images {
     topic_id: u16,
     topic_name: String,
@@ -32,10 +34,13 @@ impl Rosbag2Images {
         }
     }
 
+    /// Init frame Topic
     pub fn from_topic(topic: &Topic, width_: u32, height_: u32) -> Self {
         Rosbag2Images::new(topic.id, &topic.name, &topic.topic_type, width_, height_)
     }
 
+    /// Get frame from interface
+    /// If interface do not get a image, return None
     pub fn get_frame(&mut self) -> Option<&image::RgbImage> {
         let output: Option<&image::RgbImage>;
         if self.now_frame_index > self.images.len() - 1 {
@@ -47,6 +52,17 @@ impl Rosbag2Images {
         output
     }
 
+    /// Get frame from 0-1 ratio
+    /// If the number of frames is 100 and ratio is 0.4, return frame[40]
+    pub fn get_frame_from_ratio(&mut self, ratio: f32) -> Option<&image::RgbImage> {
+        let image_size: f32 = self.images.len() as f32;
+        let ratio_: f32 = f32::min(f32::max(0.0, ratio), 1.0);
+        let frame_index: usize = (image_size * ratio_) as usize;
+        self.now_frame_index = frame_index - 1;
+        let output: Option<&image::RgbImage> = Some(self.images[self.now_frame_index].get_image());
+        output
+    }
+
     pub fn get_topic_name(&self) -> &str {
         &self.topic_name
     }
@@ -55,22 +71,22 @@ impl Rosbag2Images {
         self.topic_id
     }
 
+    pub fn get_width(&self) -> u32 {
+        self.width
+    }
+
+    pub fn get_height(&self) -> u32 {
+        self.height
+    }
+
     pub fn reset_frame_index(&mut self) {
         self.now_frame_index = 0;
     }
 
-    pub fn add_images(&mut self, message: &TopicMessage) {
+    /// Add image from topic message
+    pub(crate) fn add_images(&mut self, message: &TopicMessage) {
         let image: RgbImage = message.deserialize(&self.topic_type).unwrap();
         self.images
             .push(StampedImage::new(message.timestamp, image))
-    }
-
-    pub fn get_frame_from_ratio(&mut self, ratio: f32) -> Option<&image::RgbImage> {
-        let image_size: f32 = self.images.len() as f32;
-        let ratio_: f32 = f32::min(f32::max(0.0, ratio), 1.0);
-        let frame_index: usize = (image_size * ratio_) as usize;
-        self.now_frame_index = frame_index - 1;
-        let output: Option<&image::RgbImage> = Some(self.images[self.now_frame_index].get_image());
-        output
     }
 }

@@ -1,5 +1,6 @@
 use image::RgbImage;
 
+/// Image with timestamp
 pub struct StampedImage {
     timestamp: u64,
     image: RgbImage,
@@ -13,6 +14,7 @@ impl StampedImage {
         }
     }
 
+    #[allow(dead_code)]
     pub fn get_timestamp(&self) -> u64 {
         self.timestamp
     }

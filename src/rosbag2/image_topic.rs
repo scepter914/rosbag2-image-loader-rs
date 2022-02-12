@@ -1,12 +1,15 @@
 use crate::rosbag2::topic::Topic;
 
-#[derive(Debug)]
+/// Image topic information
+/// Id correspondence table for CameraInfo and CompressedImage
+#[allow(dead_code)]
 pub struct ImageTopicInfo {
     pub image_topic_name: String,
     pub image_topic_id: u16,
     pub camera_info_topic_id: u16,
 }
 
+#[allow(dead_code)]
 impl ImageTopicInfo {
     fn new(
         image_topic_name_: impl Into<String>,
@@ -20,11 +23,17 @@ impl ImageTopicInfo {
         }
     }
 }
+
+/// Image topic handler
+/// Topic correspondence table for CameraInfo and CompressedImage
+#[allow(dead_code)]
 pub struct ImageTopicManager {
     image_topics: Vec<Topic>,
     camera_info_topics: Vec<Topic>,
 }
 
+#[allow(dead_code)]
+#[deprecated(since = "0.0.1", note = "not need for sensor_msgs/msg/Image")]
 impl ImageTopicManager {
     pub fn new() -> Self {
         ImageTopicManager {
@@ -59,6 +68,7 @@ impl ImageTopicManager {
     }
 }
 
+#[allow(dead_code)]
 fn is_same_name_space(image_topic_name: &str, camera_info_topic_name: &str) -> bool {
     // root topic from image topic
     let mut root_from_image_topic: Option<String> =
@@ -75,6 +85,7 @@ fn is_same_name_space(image_topic_name: &str, camera_info_topic_name: &str) -> b
     output
 }
 
+#[allow(dead_code)]
 fn get_root_topic_name(topic_name: &str, keyword: &str) -> Option<String> {
     let common_topic_name: Option<String>;
     if topic_name.contains(keyword) {
