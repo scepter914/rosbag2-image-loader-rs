@@ -1,6 +1,9 @@
 # rosbag2-loader-rs
 
 - This repository is rosbag2 image loader by rust
+- document
+    - [crates.io](https://crates.io/crates/rosbag2_image_loader)
+    - [docs.rs](https://docs.rs/rosbag2-image-loader-rs)
 
 ## Feature
 
