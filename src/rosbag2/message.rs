@@ -36,9 +36,6 @@ impl TopicMessage {
         let header = get_header(&topic_data);
         let height = get_u32(&topic_data, header.size);
         let width = get_u32(&topic_data, header.size + 4);
-
-        let _frame_id_string = String::from_utf8(topic_data[16..(header.size - 1)].to_vec());
-
         RgbImage::from_vec(width, height, topic_data[(header.size + 28)..].to_vec()).unwrap()
     }
 
@@ -52,9 +49,8 @@ impl TopicMessage {
     /// | (string_last_index)..                 | uint8[] data           |
     pub fn deserialize_compressed_image_message(&self) -> RgbImage {
         let topic_data: Vec<u8> = self.data.as_ref().unwrap().to_vec();
-
-        let header_len: usize = self.get_header_len(&topic_data);
-        let frame_id = String::from_utf8(topic_data[16..(header_len - 1)].to_vec()).unwrap();
+        let header = get_header(&topic_data);
+        let (string, string_last_index) = get_string(&topic_data, header.size);
 
         let string_last_index = self.get_index_after_string(&topic_data, header_len - 1);
         let format_string =
@@ -75,27 +71,26 @@ impl TopicMessage {
         file.write_all(&topic_data[(header_len + 9)..]).unwrap();
         RgbImage::from_vec(110, 200, topic_data[(header_len + 9)..].to_vec()).unwrap()
     }
+    */
 
-    /// | the index of topic data | topic data                       |
-    /// | ----------------------- | -------------------------------- |
-    /// | 0..19                   | std_msgs/Header header           |
-    /// | 20..23                  | uint32 height                    |
-    /// | 24..27                  | uint32 width                     |
-    /// |                         | string distortion_model          |
-    /// |                         | float64[] D                      |
-    /// |                         | float64[9] K                     |
-    /// |                         | float64[9] R                     |
-    /// |                         | float64[12] P                    |
-    /// |                         | uint32 binning_x                 |
-    /// |                         | uint32 binning_y                 |
-    /// |                         | sensor_msgs/RegionOfInterest roi |
+    /// | the index of topic data              | topic data                       |
+    /// | ------------------------------------ | -------------------------------- |
+    /// | 0..(header.size - 1)                 | std_msgs/Header header           |
+    /// | header.size..(header.size + 3)       | uint32 height                    |
+    /// | (header.size + 4)..(header.size + 7) | uint32 width                     |
+    /// |                                      | string distortion_model          |
+    /// |                                      | float64[] D                      |
+    /// |                                      | float64[9] K                     |
+    /// |                                      | float64[9] R                     |
+    /// |                                      | float64[12] P                    |
+    /// |                                      | uint32 binning_x                 |
+    /// |                                      | uint32 binning_y                 |
+    /// |                                      | sensor_msgs/RegionOfInterest roi |
     pub fn convert_message_to_camera_info(&self) -> (u32, u32) {
         let topic_data: Vec<u8> = self.data.as_ref().unwrap().to_vec();
-        let height_u8: [u8; 4] = slice_to_array(&topic_data[20..24]);
-        let width_u8: [u8; 4] = slice_to_array(&topic_data[24..28]);
-        let height: u32 = unsafe { std::mem::transmute(height_u8) };
-        let width: u32 = unsafe { std::mem::transmute(width_u8) };
+        let header = get_header(&topic_data);
+        let height = get_u32(&topic_data, header.size);
+        let width = get_u32(&topic_data, header.size + 4);
         (width, height)
     }
-    */
 }
