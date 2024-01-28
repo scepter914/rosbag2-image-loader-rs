@@ -1,15 +1,14 @@
 # rosbag2-image-loader-rs
 
-- This repository is rosbag2 image loader by rust
-- document
-    - [crates.io](https://crates.io/crates/rosbag2_image_loader)
-    - [docs.rs](https://docs.rs/rosbag2_image_loader/)
+This crate is rosbag2 image loader by rust.
 
-## Feature
-
-- [x] Read sensor_msg/msg/Image
-- [x] Read sensor_msg/msg/CameraInfo
-- [ ] Read sensor_msg/msg/CompressedImage
+- Document
+  - [crates.io](https://crates.io/crates/rosbag2_image_loader)
+  - [docs.rs](https://docs.rs/rosbag2_image_loader/)
+- Supported feature
+  - [x] Read `sensor_msg/msg/Image`
+  - [x] Read `sensor_msg/msg/CameraInfo`
+  - [ ] Read `sensor_msg/msg/CompressedImage`
 
 ## Get started
 
@@ -22,6 +21,12 @@ cargo run --release --example example data/rosbag/rosbag2_2022_02_05-00_54_33/ro
 ```
 
 ### Use in your application
+
+- Cargo.toml
+
+```toml
+rosbag2_image_loader = "0.1.2"
+```
 
 - In detail, see example code.
 
@@ -44,9 +49,12 @@ cargo run --release --example example data/rosbag/rosbag2_2022_02_05-00_54_33/ro
 
 ## History
 
+- For new release
+  - Updated docs
 - v0.1.2
-  - Update docs
+  - Updated docs
 - v0.1.1
-  - Update docs
+  - Updated docs
 - v0.1.0
-  - Open crate
+  - Published `rosbag2-image-loader`
+
